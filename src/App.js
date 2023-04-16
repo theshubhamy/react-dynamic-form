@@ -1,14 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Box, TextField, Grid, Button, Typography } from "@mui/material";
-import { Terminal } from "xterm";
-import "xterm/css/xterm.css";
-const App = () => {
-  const terminalRef = useRef(null);
-  const terminal = new Terminal();
-  useEffect(() => {
-    terminal.open(terminalRef.current);
-  }, []);
 
+const App = () => {
   const [formFields, setFormFields] = useState([
     { name: "", email: "", phone: "" },
   ]);
@@ -21,7 +14,7 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    terminal.write(formFields);
+    console.log(formFields);
   };
 
   const addFields = () => {
@@ -49,13 +42,13 @@ const App = () => {
         height: "100vh",
       }}
     >
-      <Typography variant="h3" textAlign={"center"}>
+      <Typography variant="h3" textAlign={"center"} margin={3}>
         Dynamic Form
       </Typography>
       <Box component="form" onSubmit={handleSubmit}>
         {formFields.map((form, index) => {
           return (
-            <Grid container spacing={2} key={index}>
+            <Grid container spacing={2} key={index} marginBottom={2}>
               <Grid item xs={12} sm={3}>
                 <TextField
                   name="name"
@@ -113,8 +106,10 @@ const App = () => {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ height: "200px" }}>
-        <div ref={terminalRef} />
+      <Box>
+        <pre>
+          <code>{JSON.stringify(formFields)}</code>
+        </pre>
       </Box>
     </Box>
   );
